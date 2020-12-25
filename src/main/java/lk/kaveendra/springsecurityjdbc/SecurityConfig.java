@@ -23,19 +23,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
-                .withDefaultSchema()
-                .withUser(
-                        User.withUsername("nipun")
-                                .password("password")
-                                .roles("USER")
+                .usersByUsernameQuery("select username,password,enabled "
+                    + "from users "
+                        + "where username = ?"
                 )
-                .withUser(
-                        User.withUsername("kaveendra")
-                                .password("password")
-                                .roles("ADMIN")
+                .authoritiesByUsernameQuery("select username,authority "
+                        + "from authorities "
+                        +"where username = ?"
                 );
-
-
     }
 
     @Override
